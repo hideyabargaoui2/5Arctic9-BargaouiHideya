@@ -5,10 +5,11 @@ pipeline {
     }
     stages {
         stage('1. Checkout Code') {
-            steps {
-                git branch: 'main', url: 'https://github.com/TON_USERNAME/CLASSE_NOM.git' // Mets ton lien GitHub
-            }
-        }
+                    steps {
+                        // Utilise ton vrai lien GitHub et ta branche 'main'
+                        git branch: 'main', url: 'https://github.com/hideyabargaoui2/5Arctic9-BargaouiHideya.git'
+                    }
+                }
         stage('2. Build & Test') {
             steps {
                 sh 'mvn clean package' // Compile et lance les tests
