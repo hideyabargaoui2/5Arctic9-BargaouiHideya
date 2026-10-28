@@ -10,17 +10,21 @@ pipeline {
                         git branch: 'main', url: 'https://github.com/hideyabargaoui2/5Arctic9-BargaouiHideya.git'
                     }
                 }
-        stage('2. Build & Test') {
-            steps {
-                sh 'mvn clean package' // Compile et lance les tests
-            }
-        }
-        stage('3. SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQube_Server') {
-                    sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar' // Lance l'analyse de qualité
-                }
-            }
-        }
+       stage('2. Build & Test') {
+                   steps {
+                       dir('backend') { // Jenkins entre dans le dossier backend
+                           sh 'mvn clean package'
+                       }
+                   }
+               }
+       stage('3. SonarQube Analysis') {
+                   steps {
+                       dir('backend') { // Jenkins entre dans le dossier backend
+                           withSonarQubeEnv('SonarQube_Server') {
+                               sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar'
+                           }
+                       }
+                   }
+               }
     }
 }
