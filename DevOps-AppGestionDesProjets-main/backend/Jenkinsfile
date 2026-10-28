@@ -27,5 +27,22 @@ pipeline {
                              }
                          }
                      }
+              stage('4. Build Docker Image') {
+                          steps {
+                              dir('DevOps-AppGestionDesProjets-main/backend') {
+                                  // Remplace par ton pseudo DockerHub
+                                  sh 'docker build -t hidayadock/hideyabargaoui_5arctic9_gestionprojets:latest .'
+                              }
+                          }
+                      }
+                      stage('5. Push to DockerHub') {
+                          steps {
+                              // "dockerhub-credentials" est l'ID que tu as créé dans Jenkins à l'étape des clés de sécurité
+                              withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', passwordVariable: 'DOCKER_PASS', usernameVariable: 'DOCKER_USER')]) {
+                                  sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+                                  sh 'docker push hidayadock/hideyabargaoui_5arctic9_gestionprojets:latest'
+                              }
+                          }
+                      }
     }
 }
