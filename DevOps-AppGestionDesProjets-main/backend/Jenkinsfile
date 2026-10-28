@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+    tools {
+        maven 'Maven_3' // Le nom exact que tu as mis dans "Tools" à l'étape 2
+    }
+    stages {
+        stage('1. Checkout Code') {
+            steps {
+                git branch: 'main', url: 'https://github.com/TON_USERNAME/CLASSE_NOM.git' // Mets ton lien GitHub
+            }
+        }
+        stage('2. Build & Test') {
+            steps {
+                sh 'mvn clean package' // Compile et lance les tests
+            }
+        }
+        stage('3. SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube_Server') {
+                    sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar' // Lance l'analyse de qualité
+                }
+            }
+        }
+    }
+}
