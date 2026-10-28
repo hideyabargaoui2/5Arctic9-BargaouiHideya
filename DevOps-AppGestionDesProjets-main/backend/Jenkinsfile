@@ -17,14 +17,15 @@ pipeline {
                       }
                   }
               }
-              stage('3. SonarQube Analysis') {
-                  steps {
-                      dir('DevOps-AppGestionDesProjets-main/backend') {
-                          withSonarQubeEnv('SonarQube_Server') {
-                              sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar'
-                          }
-                      }
-                  }
-              }
+             stage('3. SonarQube Analysis') {
+                         steps {
+                             dir('DevOps-AppGestionDesProjets-main/backend') {
+                                 withSonarQubeEnv('SonarQube_Server') {
+                                     // On force l'URL ici pour contourner le localhost
+                                     sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.host.url=http://host.docker.internal:9000'
+                                 }
+                             }
+                         }
+                     }
     }
 }
