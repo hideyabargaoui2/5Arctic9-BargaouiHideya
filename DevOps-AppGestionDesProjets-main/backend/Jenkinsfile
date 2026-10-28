@@ -12,14 +12,15 @@ pipeline {
                 }
        stage('2. Build & Test') {
                    steps {
-                       dir('backend') { // Jenkins entre dans le dossier backend
+                       // On donne le chemin exact vers le dossier qui contient le pom.xml
+                       dir('DevOps-AppGestionDesProjets-main/backend') {
                            sh 'mvn clean package'
                        }
                    }
                }
-       stage('3. SonarQube Analysis') {
+               stage('3. SonarQube Analysis') {
                    steps {
-                       dir('backend') { // Jenkins entre dans le dossier backend
+                       dir('DevOps-AppGestionDesProjets-main/backend') {
                            withSonarQubeEnv('SonarQube_Server') {
                                sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar'
                            }
